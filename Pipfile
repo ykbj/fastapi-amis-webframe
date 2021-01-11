@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+loguru = "*"
+fastapi-login = "*"
+sqlalchemy = "*"
+databases = "*"
+aiofiles = "*"
+aiosqlite = "*"
+bcrypt = "*"
+jinja2 = "*"
+python-multipart = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
