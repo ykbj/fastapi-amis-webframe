@@ -1,84 +1,84 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>amis demo</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
     />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="sdk/sdk.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <link rel="stylesheet" href="sdk/sdk.css"/>
     <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css -->
     <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
     <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
     <style>
-      html,
-      body,
-      .app-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+        html,
+        body,
+        .app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
     </style>
-  </head>
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src="sdk/sdk.js"></script>
-    <script src="sdk/vars.js"></script>
-    <script type="text/javascript">
-      (function () {
+</head>
+<body>
+<div id="root" class="app-wrapper"></div>
+<script src="sdk/sdk.js"></script>
+<script src="sdk/vars.js"></script>
+<script type="text/javascript">
+    (function () {
         let amis = amisRequire('amis/embed');
         // 通过替换下面这个配置来生成不同页面
-        let amisScoped = amis.embed('#root', 
-		{
-    "type": "form",
-    "title": "账号",
-    "controls": [
-        {
-            "label": "邮箱地址",
-            "type": "text",
-            "name": "username",
-            "hint": "",
-            "addOn": null,
-            "required": true,
-            "validations": {
-                "isEmail": true
-            },
-            "validationErrors": {
-                "isEmail": "Email 格式不正确"
+        let amisScoped = amis.embed('#root',
+            {
+                "type": "form",
+                "title": "账号",
+                "controls": [
+                    {
+                        "label": "邮箱地址",
+                        "type": "text",
+                        "name": "username",
+                        "hint": "",
+                        "addOn": null,
+                        "required": true,
+                        "validations": {
+                            "isEmail": true
+                        },
+                        "validationErrors": {
+                            "isEmail": "Email 格式不正确"
+                        }
+                    },
+                    {
+                        "type": "password",
+                        "label": "密码",
+                        "name": "password",
+                        "required": true
+                    }
+                ],
+                "submitText": "登陆",
+                "affixFooter": false,
+                "messages": {
+                    "fetchFailed": "初始化失败",
+                    "saveSuccess": "保存成功",
+                    "saveFailed": "保存失败",
+                    "validateFailed": ""
+                },
+                "initApi": "",
+                "api": {
+                    "method": "post",
+                    "url": baseUrl + "/auth/token",
+                    "dataType": "form"
+                },
+                "debug": false,
+                "autoFocus": true,
+                "redirect": baseUrl
             }
-        },
-        {
-            "type": "password",
-            "label": "密码",
-            "name": "password",
-            "required": true
-        }
-    ],
-    "submitText": "登陆",
-    "affixFooter": false,
-    "messages": {
-        "fetchFailed": "初始化失败",
-        "saveSuccess": "保存成功",
-        "saveFailed": "保存失败",
-        "validateFailed": ""
-    },
-    "initApi": "",
-    "api": {
-        "method": "post",
-        "url": baseUrl + "/auth/token",
-        "dataType": "form"
-    },
-    "debug": false,
-    "autoFocus": true,
-    "redirect": baseUrl
-}
-		);
-      })();
-    </script>
-  </body>
+        );
+    })();
+</script>
+</body>
 </html>
