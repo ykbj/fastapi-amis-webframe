@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="sdk/sdk.css" />
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css -->
+    <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="sdk/sdk.js"></script>
+    <script src="sdk/vars.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisScoped = amis.embed('#root', 
+{
+    "type": "page",
+    "title": "Admin",
+    "body": [
+        {
+          "label": "新增",
+          "type": "button",
+          "actionType": "dialog",
+          "level": "primary",
+          "className": "m-b-sm",
+          "dialog": {
+            "title": "新增表单",
+            "body": {
+              "type": "form",
+              "api": "post:" + baseUrl + "/admin/insert/user/",
+              "controls": [
+                {
+                  "type": "text",
+                  "name": "email",
+                  "label": "邮箱"
+                },
+                {
+                  "type": "text",
+                  "name": "password",
+                  "label": "密码"
+                }
+              ]
+            }
+          }
+        },
+        {
+            "type": "crud",
+            "api": baseUrl + "/admin/user/list",
+            "messages": {},
+            "initFetch": true,
+            "loadDataOnce": true,
+            "mode": "table",
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text"
+                },
+                {
+                    "name": "email",
+                    "label": "邮箱",
+                    "type": "text"
+                },
+                {
+                    "type": "status",
+                    "name": "is_active",
+                    "label": "是否启用",
+                    "map": [
+                        "fa fa-times text-danger",
+                        "fa fa-check text-success"
+                    ]
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                      {
+                        "label": "修改密码",
+                        "type": "button",
+                        "actionType": "drawer",
+                        "drawer": {
+                          "title": "新增表单",
+                          "body": {
+                            "type": "form",
+                            "api": {
+                                "method": "post",
+                                "url": baseUrl + "/admin/update/pwd/",
+                                "data": {
+                                    "new_pwd": "${new_pwd}",
+                                    "user_id": "${id}"
+                                }
+                            },
+                            "controls": [
+                              {
+                                "type": "text",
+                                "name": "new_pwd",
+                                "label": "修改密码"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "label": "删除",
+                        "type": "button",
+                        "actionType": "ajax",
+                        "level": "danger",
+                        "confirmText": "确认要删除？",
+                        "api": "delete:" + baseUrl + "/admin/delete/user/${id}",
+                        "visibleOn": "email != \"yk1001@163.com\""
+                      },
+                      {
+                        "label": "启用/禁用",
+                        "type": "button",
+                        "actionType": "ajax",
+                        "level": "secondary",
+                        "api": "post:" + baseUrl + "/admin/change/status/${id}",
+                        "visibleOn": "email != \"yk1001@163.com\""
+                      }
+
+                    ]
+                }
+            ]
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "dropdown-button",
+            "label": "${email}",
+            "buttons": [
+                {
+                    "type": "button",
+                    "label": "我的",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                    }
+                },
+                {
+                    "type": "button",
+                    "label": "登出",
+                    "actionType": "ajax",
+                    "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                    },
+                    "api": {
+                        "method": "post",
+                        "url": baseUrl + "/cookie/clear"
+                    },
+                    "redirect": baseUrl
+                }
+            ]
+        }
+    ],
+    "messages": {
+        "fetchSuccess": "登陆成功"
+    },
+    "initApi": "get:" + baseUrl + "/current_user",
+    "initFetch": true
+}
+		);
+      })();
+    </script>
+  </body>
+</html>
